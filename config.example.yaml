@@ -1,0 +1,6 @@
+files:
+  baseDir: /path/to/your/mail-templates
+  include: 
+    - "**/*.hbs"
+  exclude: 
+    - "**/special.hbs"
