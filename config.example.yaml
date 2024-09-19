@@ -11,3 +11,5 @@ files:
     compile:
       - from: ".hbs"
         to: ".html"
+data:
+  aKey: "aValue"

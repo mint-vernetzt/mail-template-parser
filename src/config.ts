@@ -13,6 +13,9 @@ type Config = {
       copy?: { from: string; to: string }[];
     };
   };
+  data?: {
+    [key: string]: unknown;
+  }
 };
 
 let config: Config;

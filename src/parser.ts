@@ -17,13 +17,14 @@ export async function parse(
 
   const files = await Promise.all(
     path.map(async (path) => {
-      const data = await readFile(path, "utf8");
-      const template = handlebars.compile(data);
+      const templateContent = await readFile(path, "utf8");
+      const template = handlebars.compile(templateContent);
 
       const title = path.replace(config.files.baseDir, "").replace(".hbs", "");
+      const data = typeof config.data !== "undefined" ? config.data : {};
 
       if (path.endsWith("text.hbs") || layout === null) {
-        const content = template({});
+        const content = template(data);
         return { path, content };
       }
       const htmlTemplate = handlebars.compile(dedent`
@@ -41,7 +42,7 @@ export async function parse(
       `);
 
       const layoutTemplate = handlebars.compile(layout);
-      handlebars.registerPartial("body", template({}));
+      handlebars.registerPartial("body", template(data));
       const content = htmlTemplate({
         title,
         content: layoutTemplate({}),
