@@ -2,8 +2,8 @@ import { globby } from "globby";
 import { config } from "./src/config";
 import { parse } from "./src/parser";
 import { mkdir, rm, appendFile, writeFile } from "node:fs/promises";
-import { outputFile } from "fs-extra";
-import { relative } from "node:path";
+import { outputFile, copyFile, copy } from "fs-extra";
+import { relative, resolve } from "node:path";
 
 async function main() {
   console.log(config);
@@ -20,8 +20,18 @@ async function main() {
   const paths = await globby([...include, ...exclude]);
   const files = await parse(paths);
 
+  
   await rm("public", { recursive: true, force: true });
   await mkdir("public");
+  
+  if (Array.isArray(config.files.copy)) {
+    await Promise.all(
+      config.files.copy.map(async (file) => {
+        const filePath = resolve(config.files.baseDir, file);
+        await copy(filePath, `public/${file}`);
+      })
+    );
+  }
 
   await Promise.all(
     files.map(async (file) => {

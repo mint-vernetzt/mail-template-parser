@@ -6,6 +6,7 @@
     "start": "serve ./public"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.5.5",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2"

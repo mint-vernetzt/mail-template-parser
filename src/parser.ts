@@ -32,12 +32,11 @@ export async function parse(
       const data = await readFile(path, "utf8");
       const template = handlebars.compile(data);
 
-      const targetPath = path.replace(".hbs", ".html");
       const title = path.replace(config.files.baseDir, "").replace(".hbs", "");
 
       if (path.endsWith("text.hbs") || layout === null) {
         const content = baseTemplate({ title, content: template({}) });
-        return { path: targetPath, content };
+        return { path, content };
       }
 
       const layoutTemplate = handlebars.compile(layout);
@@ -46,11 +45,9 @@ export async function parse(
         title,
         content: layoutTemplate({}),
       });
-      return { path: targetPath, content };
+      return { path, content };
     })
   );
-
-  console.log(files);
 
   return files;
 }
