@@ -2,7 +2,8 @@
   "name": "mail-template-parser",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsx ./index.ts"
+    "build": "tsx ./index.ts",
+    "start": "serve ./public"
   },
   "devDependencies": {
     "@types/node": "^22.5.5",
@@ -11,8 +12,10 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "fs-extra": "^11.2.0",
     "globby": "^14.0.2",
     "handlebars": "^4.7.8",
+    "serve": "^14.2.3",
     "yaml": "^2.5.1"
   }
 }
