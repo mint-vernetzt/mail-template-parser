@@ -20,15 +20,27 @@ async function main() {
   const paths = await globby([...include, ...exclude]);
   const files = await parse(paths);
 
-  
   await rm("public", { recursive: true, force: true });
   await mkdir("public");
-  
+
   if (Array.isArray(config.files.copy)) {
     await Promise.all(
       config.files.copy.map(async (file) => {
         const filePath = resolve(config.files.baseDir, file);
-        await copy(filePath, `public/${file}`);
+
+        let target;
+        if (
+          typeof config.files.rewrite !== "undefined" &&
+          Array.isArray(config.files.rewrite.copy)
+        ) {
+          target = config.files.rewrite.copy.reduce((previous, current) => {
+            return previous.replace(current.from, current.to);
+          }, file);
+        } else {
+          target = file;
+        }
+
+        await copy(filePath, `public/${target}`);
       })
     );
   }
@@ -36,7 +48,20 @@ async function main() {
   await Promise.all(
     files.map(async (file) => {
       const filePath = relative(config.files.baseDir, file.path);
-      await outputFile(`public/${filePath}`, file.content);
+
+      let target;
+      if (
+        typeof config.files.rewrite !== "undefined" &&
+        Array.isArray(config.files.rewrite.compile)
+      ) {
+        target = config.files.rewrite.compile.reduce((previous, current) => {
+          return previous.replace(current.from, current.to);
+        }, filePath);
+      } else {
+        target = filePath;
+      }
+
+      await outputFile(`public/${target}`, file.content);
     })
   );
 }

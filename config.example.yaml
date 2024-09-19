@@ -1,6 +1,13 @@
 files:
-  baseDir: /path/to/your/mail-templates
+  baseDir: /path/to/your/project
   include: 
     - "**/*.hbs"
   exclude: 
     - "**/special.hbs"
+  layout: "layout.hbs"
+  copy:
+    - "public/favicon.ico"
+  rewrite:
+    compile:
+      - from: ".hbs"
+        to: ".html"
