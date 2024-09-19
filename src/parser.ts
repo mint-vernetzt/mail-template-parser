@@ -1,7 +1,7 @@
+import dedent from "dedent";
+import handlebars from "handlebars";
 import { readFile } from "node:fs/promises";
 import { config } from "./config";
-import handlebars from "handlebars";
-import dedent from "dedent";
 
 let layout: string | null = null;
 

@@ -1,13 +1,11 @@
+import { copy, outputFile } from "fs-extra";
 import { globby } from "globby";
+import { mkdir, rm } from "node:fs/promises";
+import { relative, resolve } from "node:path";
 import { config } from "./src/config";
 import { parse } from "./src/parser";
-import { mkdir, rm, appendFile, writeFile } from "node:fs/promises";
-import { outputFile, copyFile, copy } from "fs-extra";
-import { relative, resolve } from "node:path";
 
 async function main() {
-  console.log(config);
-
   const include = config.files.include.map((pattern) => {
     return `${config.files.baseDir}/${pattern}`;
   });

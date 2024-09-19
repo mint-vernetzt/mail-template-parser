@@ -15,13 +15,13 @@ type Config = {
   };
   data?: {
     [key: string]: unknown;
-  }
+  };
 };
 
 let config: Config;
 
 try {
-  const data = readFileSync(`${process.cwd()}/config.yaml`, "utf8");
+  const data = readFileSync("config.yaml", "utf8");
   config = yaml.parse(data);
 } catch (err) {
   console.error(err);
